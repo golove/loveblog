@@ -10,14 +10,14 @@
     }"
   >
     <v-card
-      
       :min-height="maxheight"
       :class="flag?'card1_1':''"
       class="card1 mx-auto"
       :color="item.color"
       :dark="!item.tcolor"
+      shaped
     >
-      <v-toolbar flat :color="item.color" >
+      <v-toolbar flat :color="item.color">
         <v-avatar size="42" color="grey darken-3">
           <v-img class="elevation-6" :src="item.avatar"></v-img>
         </v-avatar>
@@ -26,9 +26,9 @@
 
         <v-spacer></v-spacer>
 
-        <!-- <v-btn icon>
+        <v-btn @click="remove" icon>
           <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn> -->
+        </v-btn>
       </v-toolbar>
 
       <v-card-text
@@ -66,9 +66,16 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title ><b>{{item.name}}</b>  <b style="opacity: 0.6;
-  font-size: 0.8em;">{{new Date(item.time).toLocaleString()}}</b></v-list-item-title>
-              <v-list-item-subtitle><b>{{item.reply}}</b></v-list-item-subtitle>
+              <v-list-item-title>
+                <b>{{item.name}}</b>
+                <b
+                  style="opacity: 0.6;
+  font-size: 0.8em;"
+                >{{new Date(item.time).toLocaleString()}}</b>
+              </v-list-item-title>
+              <v-list-item-subtitle>
+                <b>{{item.reply}}</b>
+              </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -82,25 +89,39 @@
       :dark="!item.tcolor"
       class="card2 overflow-hidden"
       :class="flag?'card2_1':''"
+      shaped
     >
-      <simplereply @backmsg="backmsg" :item="item" />
+      <msgboard @backmsg="backmsg" :page="page" :item="item" />
+      <v-pagination
+        class="paginatsss"
+        v-if="Math.ceil(item.reply.length/sliceN)>1"
+        light
+        circle
+        v-model="page"
+        :length="Math.ceil(item.reply.length/sliceN)"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+      ></v-pagination>
+      <!-- <simplereply @backmsg="backmsg" :item="item" /> -->
     </v-card>
   </div>
 </template>
 
 <script>
+import msgboard from '~/components/msgBoard'
 import simplereply from '~/components/simpleReply.vue'
 import { mapMutations } from 'vuex'
 export default {
   name: 'twittercard',
-  props: { item: Object},
-  components: { simplereply },
+  props: { item: Object, n: Number },
+  components: { simplereply, msgboard },
   data: () => ({
     tflag: false,
-
+    page: 1,
+    sliceN: 9,
     flag: false,
 
-    maxheight: '380px'
+    maxheight: '200px'
   }),
 
   methods: {
@@ -109,24 +130,27 @@ export default {
     watchnow() {
       this.articleEdit({ data: this.item, type: 'see' })
     },
+    remove() {
+      this.$store.commit('remove', this.n)
+    },
     showmsg() {
       if (!this.tflag) {
         this.flag = ~this.flag
         setTimeout(() => {
-          this.maxheight = '900px'
+          this.maxheight = '800px'
         }, 600)
       } else {
         this.tflag = false
         setTimeout(() => {
           this.flag = ~this.flag
           setTimeout(() => {
-            this.maxheight = '900px'
+            this.maxheight = '800px'
           }, 600)
         }, 300)
       }
     },
     backmsg() {
-      this.maxheight = '380px'
+      this.maxheight = '200px'
       setTimeout(() => {
         this.flag = !this.flag
       }, 620)
@@ -179,5 +203,8 @@ export default {
   max-height: 130px;
   overflow: hidden;
 }
-
+.paginatsss {
+  position: absolute;
+  bottom: 0;
+}
 </style>

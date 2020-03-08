@@ -16,6 +16,7 @@ module.exports = {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
+    // script: [{ href: "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js" }]
   },
   /*
   ** Customize the progress-bar color
@@ -52,7 +53,7 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: "http://127.0.0.1",// "39.105.168.171:80 "//"http://127.0.0.1:3000", 
+    baseURL: "http://39.105.168.171:80", //"39.105.168.171:80",127.0.0.1
   },
   /*
   ** vuetify module configuration

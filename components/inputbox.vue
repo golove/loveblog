@@ -1,17 +1,17 @@
 <template>
-  <v-card  class="card6 mx-auto" :color="item.color" :dark="!item.tcolor">
+  <v-card shaped class="card6 mx-auto" :color="item.color" :dark="!item.tcolor">
     <v-toolbar flat :color="item.color">
-      <v-avatar size="42" color="grey darken-3"> 
+      <v-avatar size="42" color="grey darken-3">
         <v-img class="elevation-6" :src="$store.state.user.avatar"></v-img>
       </v-avatar>
 
-      <v-toolbar-title class="pl-2 headline">{{$store.state.user.userName}}</v-toolbar-title>
+      <v-toolbar-title class="pl-2 headline">{{$store.state.user.name}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <!-- <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn> -->
+      </v-btn>-->
     </v-toolbar>
 
     <v-textarea
@@ -30,10 +30,10 @@
     <v-card-text class="ml-6 pl-12 pr-6 py-0" style="opacity:.6">{{item.time}}</v-card-text>
 
     <v-card-actions class="justify-space-around" style="opacity:0.7">
-      <v-btn icon @click="colorpicker=!colorpicker" >
+      <v-btn icon @click="colorpicker=!colorpicker">
         <v-icon class="mr-1">mdi-chart-bubble</v-icon>背景颜色
       </v-btn>
-       <v-switch v-model="item.tcolor" :label="`字体颜色: ${item.tcolor?'黑':'白'}`"></v-switch>
+      <v-switch v-model="item.tcolor" :label="`字体颜色: ${item.tcolor?'黑':'白'}`"></v-switch>
       <v-btn text>
         <v-file-input dense show-size label="File input"></v-file-input>
       </v-btn>
@@ -49,7 +49,7 @@
 export default {
   name: 'inputbox',
   data: () => ({
-    btnDisabled:false,
+    btnDisabled: false,
     swatches: [
       ['#FF0000', '#AA0000', '#550000'],
       ['#FFFF00', '#AAAA00', '#555500'],
@@ -65,7 +65,7 @@ export default {
       like: [],
       reply: [],
       flag: 0,
-      tcolor:false,
+      tcolor: false,
       color: '',
       time: new Date()
     },
@@ -79,7 +79,6 @@ export default {
         this.$axios
           .post('/api/insert', this.item)
           .then(res => {
-        
             this.$store.commit('pushdata', {
               type: 'letters',
               data: res.ops[0]
@@ -93,7 +92,7 @@ export default {
     },
     chiocepic() {}
   },
-   computed: {
+  computed: {
     lContent() {
       return this.item.text.length
     }
@@ -107,7 +106,7 @@ export default {
 </script>
 
 <style>
-.card6{
+.card6 {
   opacity: 0.8;
 }
 </style>

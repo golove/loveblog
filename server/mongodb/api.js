@@ -13,7 +13,7 @@ router //bolgcontent
     // let page = ctx.request.query.pa ge ? parseInt(ctx.request.query.page) : 1
     // let skip = (page - 1) * pageSize
     let json = {}
-    console.log(ctx.request.body)
+    // console.log(ctx.request.body)
     if (ctx.request.body._id) {
       json = {
         _id: DB.setObjectId(ctx.request.body._id)
@@ -27,7 +27,7 @@ router //bolgcontent
   })
 
   .post('/insert', async ctx => {
-    
+
     let res = await DB.insert('letters', ctx.request.body);
     try {
       if (res.result.ok) {
@@ -52,7 +52,7 @@ router //bolgcontent
   // 请求头像数据
   .get('/dlavatar', async ctx => {
     let res = await DB.find('avatar', ctx.request.body);
-    console.log(res)
+    // console.log(res)
     ctx.body = res
 
   })
@@ -189,7 +189,7 @@ router //bolgcontent
     }
 
   })
-  
+
   // 注册
 
   .post('/signup', async (ctx) => {

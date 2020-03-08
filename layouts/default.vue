@@ -11,7 +11,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer> -->
+    </v-navigation-drawer>-->
     <v-app-bar dense :clipped-left="clipped" fixed app>
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
        <v-btn icon @click.stop="miniVariant = !miniVariant">
@@ -26,8 +26,8 @@
       <v-spacer />
       <v-toolbar-title @click="gohome" v-text="title" />
 
-       <v-spacer />
-     <!-- <v-text-field
+      <v-spacer />
+      <!-- <v-text-field
         v-model="searchdata"
         @change="search"
         solo-inverted
@@ -37,7 +37,7 @@
         rounded
         hide-details
         label="seach"
-      ></v-text-field> -->
+      ></v-text-field>-->
 
       <v-menu
         v-if="$store.state.user.name"
@@ -90,8 +90,6 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>-->
-  
-    
   </v-app>
 </template>
 
@@ -103,7 +101,7 @@ export default {
   components: { blogfoot, star },
   data() {
     return {
-      searchdata:'',
+      searchdata: '',
       clipped: false,
       drawer: false,
       fixed: false,
@@ -143,7 +141,7 @@ export default {
       this.searchdata
     }
   },
- 
+
   created() {
     let user = window.sessionStorage.getItem('user')
     if (user) {

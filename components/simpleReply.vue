@@ -32,15 +32,21 @@
     <v-list color="transparent" three-line>
       <template v-for="(item, index) in item.reply.slice((page-1)*sliceN,sliceN*page)">
         <v-divider :key="index" :inset="true"></v-divider>
+
         <v-list-item :key="item.title" @click>
           <v-list-item-avatar>
             <v-img :src="item.avatar"></v-img>
           </v-list-item-avatar>
 
           <v-list-item-content>
-  <v-list-item-title ><b>{{item.name}}</b>  <b style="opacity: 0.6;
-  font-size: 0.8em;">{{new Date(item.time).toLocaleString()}}</b></v-list-item-title>
-              <v-list-item-subtitle><b>{{item.reply}}</b></v-list-item-subtitle>
+            <v-list-item-title>
+              <b>{{item.name}}</b>
+              <b style="opacity: 0.6;
+  font-size: 0.8em;">{{new Date(item.time).toLocaleString()}}</b>
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <b>{{item.reply}}</b>
+            </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>

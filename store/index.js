@@ -1,5 +1,5 @@
 export const state = () => ({
-    user: Object,
+    user: {},
     content: {
         avatars: [],
         letters: [],
@@ -28,6 +28,9 @@ export const mutations = {
     },
 
     // 
+    remove(state, n) {
+        state.content.letters.splice(n, 1)
+    },
 
     //user login 
     USERLOGIN(state, user) {
