@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-col xl="2" lg="3" md="3" sm="3">
+    <v-col xl="1" lg="2" md="2" sm="2">
       <v-card flat color="transparent">
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -10,15 +10,25 @@
         </v-card-actions>
       </v-card>
     </v-col>
-    <v-col class="pa-0" xl="5" lg="9" md="9" sm="9">
+    <v-col class="pa-0" xl="5" lg="7" md="9" sm="9">
       <v-row>
-        <v-col transition="slide-y-transition" v-show="flag" xl="12" lg="12" md="12" sm="12">
+        <v-col transition="slide-y-transition" v-show="flag" cols="12">
           <inputbox class="inputbox" @setdata="setdata" />
         </v-col>
-        <v-col v-for="(item,index) in blogs" :key="index" xl="12" lg="12" md="12" sm="12">
-          <twittercard :item="item" :items="items" />
+        <v-col v-for="(item,index) in $store.state.content.letters.slice((page-1)*sliceN,page*sliceN)" :key="index" cols="12">
+          <twittercard :item="item" />
         </v-col>
       </v-row>
+    </v-col>
+    <v-col cols="12" class="text-center" v-if="Math.ceil($store.state.content.letters.length/sliceN)>1">
+        <v-pagination
+          light
+          circle
+          v-model="page"
+          :length="Math.ceil($store.state.content.letters.length/sliceN)"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+        ></v-pagination>
     </v-col>
   </v-row>
 </template>
@@ -31,99 +41,9 @@ export default {
   components: { twittercard, inputbox },
   data: () => ({
     flag: false,
-    blogs: [
-      {
-        name: '箫无韵',
-        title: 'twitter',
-        text:
-          'Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style is easier and safer Turns out semicolon-less style is easier and safer  in TS because most gotcha edge cases are type invalid as well.Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style is easier and safer Turns out semicolon-less style is easier and safer  in TS because most gotcha edge cases are type invalid as well.Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style Turns out semicolon-less style is easier and safer Turns out semicolon-less style is easier and safer Turns out semicolon-less style is easier and safer  in TS because most gotcha edge cases are type invalid as well.',
-        icon: 'mdi-twitter',
-        flag: true,
-        color: 'cyan',
-        time: '2019-12-14',
-        avatar:
-          'http://yanxuan.nosdn.127.net/8d82e055d343f820b7869b929c8a45e2.jpg',
-        like: 12,
-        see: 32
-      }
-    ],
-
-    items: [
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Bru2nch this weekend?',
-        subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-        subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Oui1oui',
-        subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Br1unch this weekend?',
-        subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: '6Summer BBQ <span class="grey--text text--lighten-1">4</span>',
-        subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'O3ui oui',
-        subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
-      },
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        title: 'Brunch this we5ekend?',
-        subtitle:
-          "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        title: 'Summer BBQ <span7 class="grey--text text--lighten-1">4</span7>',
-        subtitle:
-          "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        title: 'Oui oui',
-        subtitle:
-          "<span class='text--primary'>Sandra Adams</span> &mdash; Do you have Paris recommendations? Have you ever been?"
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        title: 'Birthday gift5',
-        subtitle:
-          "<span class='text--primary'>Trevor Hansen</span> &mdash; Have any ideas about what we should get Heidi for her birthday?"
-      },
-
-      {
-        avatar: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-        title: 'Recipe to try3',
-        subtitle:
-          "<span class='text--primary'>Britta Holt</span> &mdash; We should eat this: Grate, Squash, Corn, and tomatillo Tacos."
-      }
-    ]
+    page:1,
+    sliceN:6,
+   
   }),
   methods: {
     setdata(data) {

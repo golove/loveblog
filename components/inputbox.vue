@@ -1,17 +1,17 @@
 <template>
-  <v-card flat class="card1 mx-auto" :color="item.color" dark>
-    <v-toolbar flat :color="item.color" dark>
-      <v-avatar size="42" color="grey darken-3">
-        <v-img class="elevation-6" :src="$store.state.user.imgsrc"></v-img>
+  <v-card  class="card6 mx-auto" :color="item.color" :dark="!item.tcolor">
+    <v-toolbar flat :color="item.color">
+      <v-avatar size="42" color="grey darken-3"> 
+        <v-img class="elevation-6" :src="$store.state.user.avatar"></v-img>
       </v-avatar>
 
       <v-toolbar-title class="pl-2 headline">{{$store.state.user.userName}}</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-toolbar>
 
     <v-textarea
@@ -29,14 +29,15 @@
 
     <v-card-text class="ml-6 pl-12 pr-6 py-0" style="opacity:.6">{{item.time}}</v-card-text>
 
-    <v-card-actions class="justify-space-around">
-      <v-btn icon @click="colorpicker=!colorpicker">
-        <v-icon class="mr-1">mdi-heart</v-icon>选择颜色
+    <v-card-actions class="justify-space-around" style="opacity:0.7">
+      <v-btn icon @click="colorpicker=!colorpicker" >
+        <v-icon class="mr-1">mdi-chart-bubble</v-icon>背景颜色
       </v-btn>
+       <v-switch v-model="item.tcolor" :label="`字体颜色: ${item.tcolor?'黑':'白'}`"></v-switch>
       <v-btn text>
         <v-file-input dense show-size label="File input"></v-file-input>
       </v-btn>
-      <v-btn @click="post" icon>
+      <v-btn :disabled="btnDisabled && $store.state.user.name ? false:true" @click="post" icon>
         <v-icon class="mr-1">mdi-send</v-icon>发送
       </v-btn>
     </v-card-actions>
@@ -48,6 +49,7 @@
 export default {
   name: 'inputbox',
   data: () => ({
+    btnDisabled:false,
     swatches: [
       ['#FF0000', '#AA0000', '#550000'],
       ['#FFFF00', '#AAAA00', '#555500'],
@@ -63,6 +65,7 @@ export default {
       like: [],
       reply: [],
       flag: 0,
+      tcolor:false,
       color: '',
       time: new Date()
     },
@@ -70,31 +73,41 @@ export default {
   }),
   methods: {
     post() {
-      this.item.author = this.$store.state.user.userName
-      this.item.avatar = this.$store.state.user.imgsrc
+      this.item.author = this.$store.state.user.name
+      this.item.avatar = this.$store.state.user.avatar
       if (this.item.text !== '') {
         this.$axios
           .post('/api/insert', this.item)
           .then(res => {
-            // this.$store.commit('pushdata', {
-            //   type: 'article',
-            //   data: res.ops[0]
-            // })
+        
+            this.$store.commit('pushdata', {
+              type: 'letters',
+              data: res.ops[0]
+            })
             this.item.text = ''
           })
-          // .get('/api/myletter')
-          // .then(res => {
-          //   console.log(res)
-          // })
           .catch(err => {
             console.log(err)
           })
       }
     },
     chiocepic() {}
+  },
+   computed: {
+    lContent() {
+      return this.item.text.length
+    }
+  },
+  watch: {
+    lContent: function(n, o) {
+      this.btnDisabled = n > 5
+    }
   }
 }
 </script>
 
 <style>
+.card6{
+  opacity: 0.8;
+}
 </style>

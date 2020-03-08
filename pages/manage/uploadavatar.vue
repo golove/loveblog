@@ -43,7 +43,7 @@ export default {
     upload() {
       if (this.url) {
         this.urls.unshift(this.url)
-        this.$axios.post('api/uploadavatar', { url: this.url }).then(res => {
+        this.$axios.post('/api/uploadavatar', { url: this.url }).then(res => {
           console.log(res)
         })
         this.url = ''

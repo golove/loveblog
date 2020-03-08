@@ -7,7 +7,7 @@
       ></notice>
     </v-col>
     <v-col class="py-0" cols="12">
-      <dividline :item="{icon:'mdi-book',title:'收藏的文章',badge:false }"></dividline>
+      <dividline :item="{icon:'mdi-book',title:'喜欢的文章',badge:false }"></dividline>
     </v-col>
 
     <v-col
@@ -15,21 +15,19 @@
       lg="6"
       xl="6"
       sm="6"
-      v-for="(item) in $store.state.content.article.slice((page-1)*sliceN,sliceN*page)"
-      v-show="item.collect.indexOf($store.state.user.userName)>-1"
+      v-for="(item) in $store.state.content.letters.slice((page-1)*sliceN,sliceN*page)"
+      v-show="item.like.indexOf($store.state.user.name)>-1"
       :key="item._id"
     >
-      <!-- <v-row justify="center">
-      <v-col class="py-0">-->
-      <w-card :item="item"></w-card>
-      <!-- </v-col>
-      </v-row>-->
+   <twittercard :item='item' :items="[]" />
+      <!-- <w-card :item="item"></w-card> -->
+
     </v-col>
-    <v-col class="text-center" v-if="Math.ceil($store.state.content.article.length/sliceN)>1">
+    <v-col class="text-center" v-if="Math.ceil($store.state.content.letters.length/sliceN)>1">
       <v-pagination
         circle
         v-model="page"
-        :length="Math.ceil($store.state.content.article.length/sliceN)"
+        :length="Math.ceil($store.state.content.letters.length/sliceN)"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
       ></v-pagination>
@@ -41,17 +39,14 @@
     <v-col
       class="py-0"
       :key="index"
-      v-for="(item,index) in $store.state.content.article.slice((page-1)*sliceN,sliceN*page)"
-      v-show="item.author===$store.state.user.userName"
-      lg="3"
-      xl="3"
-      md="6"
-      sm="4"
-      xs="6"
+      v-for="(item,index) in $store.state.content.letters.slice((page-1)*sliceN,sliceN*page)"
+      v-show="item.author===$store.state.user.name"
+    xl="5" lg="9" md="9" sm="9"
     >
       <v-row justify="center">
-        <v-col cols="12">
-          <h-card :item="item"></h-card>
+        <v-col cols="12" >
+          <twittercard :item='item' :items="[]" />
+          <!-- <h-card :item="item"></h-card> -->
         </v-col>
       </v-row>
     </v-col>
@@ -61,11 +56,11 @@
 <script>
 import notice from '~/components/notice.vue'
 import dividline from '~/components/Dividingline.vue'
-import hCard from '~/components/hCard.vue'
+import twittercard from '~/components/twittercard.vue'
 import wCard from '~/components/wCard.vue'
 export default {
   name: 'manageindex',
-  components: { wCard, hCard, dividline, notice },
+  components: { wCard, twittercard, dividline, notice },
   data: () => ({
     sliceN: 10,
     page: 1,

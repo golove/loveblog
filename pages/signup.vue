@@ -10,7 +10,7 @@
                 <v-toolbar-title>注册</v-toolbar-title>
                 <v-spacer />
                 <v-avatar size="36px">
-                  <img alt="Avatar" v-if="user.imgsrc" :src="user.imgsrc" />
+                  <img alt="Avatar" v-if="user.avatar" :src="user.avatar" />
 
                   <v-btn icon v-else color="pink">
                     <v-icon else>mdi-plus</v-icon>
@@ -28,8 +28,8 @@
               <v-card-text>
                 <v-form ref="form" v-model="valid">
                   <v-text-field
-                    v-model="user.username"
-                    label="username"
+                    v-model="user.name"
+                    label="name"
                     name="login"
                     prepend-icon="mdi-human"
                     type="text"
@@ -127,7 +127,7 @@ export default {
     valid: true,
     subtitle: '',
     user: {
-      username: '',
+      name: '',
       pass: '',
       email: '',
       gender: '',
@@ -136,7 +136,7 @@ export default {
       signature: '',
       creationdate: new Date(),
       delflag: false,
-      imgsrc: ''
+      avatar: '',
     },
 
     nameRules: [
@@ -201,7 +201,7 @@ export default {
       // this.user.imgsrc = res.imgurl
     },
     imgsrcicon(e) {
-      this.user.imgsrc = e.url
+      this.user.avatar = e.url
       // console.log(this.user.imgsrc)
     }
   },

@@ -38,7 +38,7 @@
                 v-model="valid"
                 >
                   <v-text-field 
-                  v-model="user.username"
+                  v-model="user.name"
                    :counter="10"
                   :rules="nameRules"
                   label="username" name="username" 
@@ -88,7 +88,7 @@ export default {
       false: 'error'
     },
      user: {
-      username: '',
+      name: '',
       pass: ''
     },
     valid:true,

@@ -11,7 +11,7 @@
               label="姓名"
               :rules="nameRules"
               :disabled="editflag"
-              v-model="user.userName"
+              v-model="user.name"
             ></v-text-field>
             <v-text-field label="邮箱" :rules="emailRules" :disabled="editflag" v-model="user.email"></v-text-field>
             <v-text-field label="手机" :rules="telRules" :disabled="editflag" v-model="user.tel"></v-text-field>
@@ -25,7 +25,7 @@
           </v-form>
         </v-col>
         <v-col lg="3" md="4" sm="4" xs="3">
-          <img width="100%" :src="user.imgsrc" alt />
+          <img width="100%" :src="user.avatar" alt />
 
           <v-textarea
             name="input-7-1"
@@ -101,12 +101,15 @@ export default {
       }
     },
     imgsrcicon(e) {
-      this.user.imgsrc = e.url
+      this.user.avatar = e.url
       this.editflag = false
-      // console.log(this.user.imgsrc)
+      // console.log(this.user.avatar)
     }
   },
   activated() {
+    
+  },
+  mounted(){
     this.user = Object.assign({}, this.$store.state.user)
   }
 }

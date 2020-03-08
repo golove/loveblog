@@ -11,10 +11,10 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>-->
+    </v-navigation-drawer> -->
     <v-app-bar dense :clipped-left="clipped" fixed app>
       <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
+       <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn icon @click.stop="clipped = !clipped">
@@ -26,8 +26,8 @@
       <v-spacer />
       <v-toolbar-title @click="gohome" v-text="title" />
 
-      <v-spacer />
-      <v-text-field
+       <v-spacer />
+     <!-- <v-text-field
         v-model="searchdata"
         @change="search"
         solo-inverted
@@ -37,10 +37,10 @@
         rounded
         hide-details
         label="seach"
-      ></v-text-field>
+      ></v-text-field> -->
 
       <v-menu
-        v-if="$store.state.user.userName"
+        v-if="$store.state.user.name"
         :close-on-click="true"
         :offset-y="true"
         transition="slide-y-transition"
@@ -51,7 +51,7 @@
             depressed
             class="ml-4textcolor--text"
             color="transparent"
-            v-text="$store.state.user.userName"
+            v-text="$store.state.user.name"
           ></v-btn>
         </template>
         <v-list>
@@ -67,7 +67,7 @@
       </div>
       <!-- <div>{{$store.state.user.age}}</div> -->
       <v-avatar size="40px">
-        <img v-if="$store.state.user.imgsrc" :src=" $store.state.user.imgsrc" alt="avatar" />
+        <img v-if="$store.state.user.avatar" :src=" $store.state.user.avatar" alt="avatar" />
       </v-avatar>
       <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
         <v-icon>mdi-menu</v-icon>
@@ -78,6 +78,7 @@
       <v-container>
         <nuxt />
       </v-container>
+      <blogfoot :item="{author:'Laughter',time:'2020',version:'V4.0'}" />
     </v-content>
     <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
@@ -89,7 +90,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>-->
-    <blogfoot :item="{author:'Laughter',time:'2020',version:'V4.0'}" />
+  
+    
   </v-app>
 </template>
 
@@ -101,6 +103,7 @@ export default {
   components: { blogfoot, star },
   data() {
     return {
+      searchdata:'',
       clipped: false,
       drawer: false,
       fixed: false,
@@ -109,12 +112,12 @@ export default {
           icon: 'mdi-apps',
           title: 'Welcome',
           to: '/'
+        },
+        {
+          icon: 'mdi-chart-bubble',
+          title: 'manage',
+          to: '/manage'
         }
-        // {
-        //   icon: 'mdi-chart-bubble',
-        //   title: 'Inspire',
-        //   to: '/inspire'
-        // }
       ],
       miniVariant: false,
       right: true,
@@ -140,17 +143,16 @@ export default {
       this.searchdata
     }
   },
-  mounted() {
+ 
+  created() {
     let user = window.sessionStorage.getItem('user')
     if (user) {
       this.userlogin(JSON.parse(user))
     }
-  },
-  created() {
     // this.$vuetify.theme.light = true
-    // if (this.$store.state.content.article.length < 1) {
-    //   this.getdata({ api: '/api/myblog', type: 'article' })
-    // }
+    if (this.$store.state.content.letters.length < 1) {
+      this.getdata({ api: '/api/letters', type: 'letters' })
+    }
 
     //  let res= this.$axios.get('https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302')
     //       .then(console.log(res))

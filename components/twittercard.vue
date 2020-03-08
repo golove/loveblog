@@ -10,25 +10,25 @@
     }"
   >
     <v-card
-      flat
+      
       :min-height="maxheight"
       :class="flag?'card1_1':''"
       class="card1 mx-auto"
       :color="item.color"
-      :dark="item.flag"
+      :dark="!item.tcolor"
     >
-      <v-toolbar flat :color="item.color" dark>
+      <v-toolbar flat :color="item.color" >
         <v-avatar size="42" color="grey darken-3">
           <v-img class="elevation-6" :src="item.avatar"></v-img>
         </v-avatar>
 
-        <v-toolbar-title class="pl-2 headline">{{item.name}}</v-toolbar-title>
+        <v-toolbar-title class="pl-2 headline">{{item.author}}</v-toolbar-title>
 
         <v-spacer></v-spacer>
 
-        <v-btn icon>
+        <!-- <v-btn icon>
           <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+        </v-btn> -->
       </v-toolbar>
 
       <v-card-text
@@ -36,9 +36,12 @@
         class="textsyle ml-6 pl-12 pr-8 py-0 headline font-weight-bold"
       >{{item.text}}</v-card-text>
 
-      <v-card-text class="ml-6 pl-12 pr-6 py-0" style="opacity:.6">{{item.time}}</v-card-text>
+      <v-card-text class="ml-6 pl-12 pr-6 py-0" style="opacity:.6">
+        <b style="opacity: 0.6;
+  font-size: 1em;">{{new Date(item.time).toLocaleString()}}</b>
+      </v-card-text>
 
-      <v-card-actions class="justify-space-around">
+      <v-card-actions class="justify-space-around" style="opacity:0.7">
         <v-btn icon>
           <v-icon class="mr-1">mdi-heart</v-icon>赞
         </v-btn>
@@ -55,7 +58,7 @@
       </v-card-actions>
 
       <v-list color="transparent" three-line>
-        <template v-for="(item, index) in items.slice(0,1 )">
+        <template v-for="(item, index) in item.reply.slice(0,1 )">
           <v-divider :key="index" :inset="true"></v-divider>
           <v-list-item :key="item.title" @click="showmsg">
             <v-list-item-avatar>
@@ -63,8 +66,9 @@
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title v-html="item.title"></v-list-item-title>
-              <v-list-item-subtitle v-html="item.subtitle"></v-list-item-subtitle>
+              <v-list-item-title ><b>{{item.name}}</b>  <b style="opacity: 0.6;
+  font-size: 0.8em;">{{new Date(item.time).toLocaleString()}}</b></v-list-item-title>
+              <v-list-item-subtitle><b>{{item.reply}}</b></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </template>
@@ -75,11 +79,11 @@
     <v-card
       :height="maxheight"
       :color="item.color"
-      dark
+      :dark="!item.tcolor"
       class="card2 overflow-hidden"
       :class="flag?'card2_1':''"
     >
-      <simplereply @backmsg="backmsg" :items="items" />
+      <simplereply @backmsg="backmsg" :item="item" />
     </v-card>
   </div>
 </template>
@@ -89,7 +93,7 @@ import simplereply from '~/components/simpleReply.vue'
 import { mapMutations } from 'vuex'
 export default {
   name: 'twittercard',
-  props: { item: Object, items: Array },
+  props: { item: Object},
   components: { simplereply },
   data: () => ({
     tflag: false,
@@ -139,6 +143,7 @@ export default {
 /* 保证正反面一样大，不然反转会很突兀*/
 .wrap {
   position: relative;
+  opacity: 0.8;
 }
 .wrap,
 .card1,
@@ -174,4 +179,5 @@ export default {
   max-height: 130px;
   overflow: hidden;
 }
+
 </style>
