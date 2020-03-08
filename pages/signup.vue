@@ -4,7 +4,7 @@
     <v-content>
       <v-container fluid>
         <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
+          <v-col lg="7" xl="6" sm="12" md="10">
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>注册</v-toolbar-title>
@@ -136,7 +136,7 @@ export default {
       signature: '',
       creationdate: new Date(),
       delflag: false,
-      avatar: '',
+      avatar: ''
     },
 
     nameRules: [

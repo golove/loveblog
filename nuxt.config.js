@@ -52,7 +52,7 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: "http://127.0.0.1:3000", //'39.105.168.171:80',  
+    baseURL: "http://127.0.0.1",// "39.105.168.171:80 "//"http://127.0.0.1:3000", 
   },
   /*
   ** vuetify module configuration
@@ -86,8 +86,8 @@ module.exports = {
   },
 
   server: {
-    port: 3000, // default: 3000
-    host: '127.0.0.1', // default: localhost
+    port: 80, // default: 3000
+    host: '0.0.0.0', // default: localhost
   },
   /*
   ** Build configuration
