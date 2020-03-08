@@ -1,15 +1,12 @@
 
 <template>
-  <v-app id="inspire">
-    <v-content>
-      <v-container fluid>
-        <v-row align="center" justify="center">
-          <v-col lg="7" xl="6" sm="12" md="10">
-            <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>登录</v-toolbar-title>
-                <v-spacer />
-                <!-- <v-tooltip bottom>
+  <v-row align="center" justify="center">
+    <v-col lg="7" xl="6" sm="12" md="10">
+      <v-card class="elevation-12">
+        <v-toolbar color="primary" dark flat>
+          <v-toolbar-title>登录</v-toolbar-title>
+          <v-spacer />
+          <!-- <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn :href="source" icon large target="_blank" v-on="on">
                       <v-icon>mdi-code-tags</v-icon>
@@ -30,48 +27,45 @@
                     </v-btn>
                   </template>
                   <span>Codepen</span>
-                </v-tooltip>-->
-              </v-toolbar>
-              <v-card-text>
-                <v-form ref="form" v-model="valid">
-                  <v-text-field
-                    v-model="user.name"
-                    :counter="10"
-                    :rules="nameRules"
-                    label="username"
-                    name="username"
-                    prepend-icon="mdi-human"
-                    type="text"
-                  />
+          </v-tooltip>-->
+        </v-toolbar>
+        <v-card-text>
+          <v-form ref="form" v-model="valid">
+            <v-text-field
+              v-model="user.name"
+              :counter="10"
+              :rules="nameRules"
+              label="username"
+              name="username"
+              prepend-icon="mdi-human"
+              type="text"
+            />
 
-                  <v-text-field
-                    id="password"
-                    label="Password"
-                    name="password"
-                    prepend-icon="mdi-lock"
-                    type="password"
-                    v-model="user.pass"
-                    :rules="passRules"
-                  />
-                  <v-alert dense outlined v-show="alertflag" :type="isSuccess[issuc]">
-                    {{
-                    subtitle
-                    }}
-                  </v-alert>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary" to="/">取消</v-btn>
-                <v-btn color="primary" to="/signup">没有账号?注册</v-btn>
-                <v-btn :disabled="!valid" @click="validate" color="primary">登录</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
-  </v-app>
+            <v-text-field
+              id="password"
+              label="Password"
+              name="password"
+              prepend-icon="mdi-lock"
+              type="password"
+              v-model="user.pass"
+              :rules="passRules"
+            />
+            <v-alert dense outlined v-show="alertflag" :type="isSuccess[issuc]">
+              {{
+              subtitle
+              }}
+            </v-alert>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" to="/">取消</v-btn>
+          <v-btn color="primary" to="/signup">没有账号?注册</v-btn>
+          <v-btn :disabled="!valid" @click="validate" color="primary">登录</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

@@ -1,106 +1,96 @@
 
 <template>
-  <v-app id="inspire">
-    <v-content>
-      <v-container fluid>
-        <v-row align="center" justify="center">
-          <v-col lg="7" xl="6" sm="12" md="10">
-            <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>注册</v-toolbar-title>
-                <v-spacer />
-                <v-avatar size="36px">
-                  <img alt="Avatar" v-if="user.avatar" :src="user.avatar" />
+  <v-row align="center" justify="center">
+    <v-col lg="7" xl="6" sm="12" md="10">
+      <v-card class="elevation-12">
+        <v-toolbar color="primary" dark flat>
+          <v-toolbar-title>注册</v-toolbar-title>
+          <v-spacer />
+          <v-avatar size="36px">
+            <img alt="Avatar" v-if="user.avatar" :src="user.avatar" />
 
-                  <v-btn icon v-else color="pink">
-                    <v-icon else>mdi-plus</v-icon>
-                  </v-btn>
-                </v-avatar>
-              </v-toolbar>
+            <v-btn icon v-else color="pink">
+              <v-icon else>mdi-plus</v-icon>
+            </v-btn>
+          </v-avatar>
+        </v-toolbar>
 
-              <v-container>
-                <useravatar
-                  :size="'40px'"
-                  @imgclick="imgsrcicon"
-                  :items="$store.state.content.avatars"
-                />
-              </v-container>
-              <v-card-text>
-                <v-form ref="form" v-model="valid">
-                  <v-text-field
-                    v-model="user.name"
-                    label="name"
-                    name="login"
-                    prepend-icon="mdi-human"
-                    type="text"
-                  />
-                  <v-text-field
-                    prepend-icon="mdi-email"
-                    v-model="user.email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                    :type="show1 ? 'text' : 'password'"
-                    v-model="user.pass"
-                    :rules="passRules"
-                    hint="At least 8 characters"
-                    counter
-                    label="password"
-                    required
-                    @click:append="show1 = !show1"
-                    prepend-icon="mdi-lock"
-                  />
+        <v-container>
+          <useravatar :size="'40px'" @imgclick="imgsrcicon" :items="$store.state.content.avatars" />
+        </v-container>
+        <v-card-text>
+          <v-form ref="form" v-model="valid">
+            <v-text-field
+              v-model="user.name"
+              label="name"
+              name="login"
+              prepend-icon="mdi-human"
+              type="text"
+            />
+            <v-text-field
+              prepend-icon="mdi-email"
+              v-model="user.email"
+              :rules="emailRules"
+              label="E-mail"
+              required
+            ></v-text-field>
+            <v-text-field
+              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show1 ? 'text' : 'password'"
+              v-model="user.pass"
+              :rules="passRules"
+              hint="At least 8 characters"
+              counter
+              label="password"
+              required
+              @click:append="show1 = !show1"
+              prepend-icon="mdi-lock"
+            />
 
-                  <v-radio-group row v-model="user.gender">
-                    <v-radio
-                      v-for="(e,n) in genders"
-                      :key="n"
-                      :label="e.gender"
-                      :color="e.color"
-                      :value="e.gender"
-                    ></v-radio>
-                  </v-radio-group>
+            <v-radio-group row v-model="user.gender">
+              <v-radio
+                v-for="(e,n) in genders"
+                :key="n"
+                :label="e.gender"
+                :color="e.color"
+                :value="e.gender"
+              ></v-radio>
+            </v-radio-group>
 
-                  <v-checkbox
-                    v-model="checkbox"
-                    :rules="[v => !!v || 'You must agree to continue!']"
-                    required
-                  >
-                    <template v-slot:label>
-                      <div>
-                        阅读并接受
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on }">
-                            <a target="_blank" href="/userAgreement" @click.stop v-on="on">用户协议</a>
-                          </template>
-                          Opens in new window
-                        </v-tooltip>
-                      </div>
+            <v-checkbox
+              v-model="checkbox"
+              :rules="[v => !!v || 'You must agree to continue!']"
+              required
+            >
+              <template v-slot:label>
+                <div>
+                  阅读并接受
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <a target="_blank" href="/userAgreement" @click.stop v-on="on">用户协议</a>
                     </template>
-                  </v-checkbox>
-                  <v-alert dense outlined v-show="alertflag" :type="isSuccess[issuc]">
-                    {{
-                    subtitle
-                    }}
-                  </v-alert>
-                </v-form>
-              </v-card-text>
+                    Opens in new window
+                  </v-tooltip>
+                </div>
+              </template>
+            </v-checkbox>
+            <v-alert dense outlined v-show="alertflag" :type="isSuccess[issuc]">
+              {{
+              subtitle
+              }}
+            </v-alert>
+          </v-form>
+        </v-card-text>
 
-              <v-card-actions>
-                <v-spacer />
-                <v-btn color="primary" to="/">取消</v-btn>
-                <v-btn color="primary" to="/login">已有账号?登录</v-btn>
-                <v-btn :disabled="!valid" color="primary" @click="validate">注册</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-content>
-  </v-app>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="primary" to="/">取消</v-btn>
+          <v-btn color="primary" to="/login">已有账号?登录</v-btn>
+          <v-btn :disabled="!valid" color="primary" @click="validate">注册</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
