@@ -55,7 +55,7 @@ export default {
       this.$emit('imgclick', e)
     },
     borderfunc(i){
-      // console.log(this.$refs.box[i])
+      console.log(this.$refs.box[i])
       // this.$refs.box.[i]
 
       this.staty = i

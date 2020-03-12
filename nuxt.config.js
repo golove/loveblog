@@ -15,8 +15,8 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
-    // script: [{ href: "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js" }]
+    ],
+    script: [{ src: "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js" }, { src: "https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js" }]
   },
   /*
   ** Customize the progress-bar color
@@ -87,7 +87,7 @@ module.exports = {
   },
 
   server: {
-    port: 80, // default: 3000
+    port: 3000, // default: 3000
     host: '0.0.0.0', // default: localhost
   },
   /*

@@ -1,6 +1,7 @@
 <template>
-  <v-row justify="space-between">
-    <v-col
+  <v-row>
+    <h2>开发中...</h2>
+    <!-- <v-col
       md="12"
       lg="6"
       xl="6"
@@ -10,11 +11,7 @@
       :key="item._id"
     >
      <twittercard :item='item' :items="[]" />
-      <!-- <v-row justify="center">
-      <v-col class="py-0">-->
-      <!-- <w-card :item="item"></w-card> -->
-      <!-- </v-col>
-      </v-row>-->
+   
     </v-col>
     <v-col class="text-center" v-if="Math.ceil($store.state.content.letters.length/sliceN)>1">
       <v-pagination
@@ -24,17 +21,17 @@
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
       ></v-pagination>
-    </v-col>
+    </v-col>-->
   </v-row>
 </template>
 
 <script>
-import hCard from '~/components/hCard.vue'
-import wCard from '~/components/wCard.vue'
-import twittercard from '~/components/twittercard.vue'
+// import hCard from '~/components/hCard.vue'
+// import wCard from '~/components/wCard.vue'
+// import twittercard from '~/components/twittercard.vue'
 export default {
   name: 'mycollect',
-  components: {twittercard, wCard, hCard },
+  components: { twittercard, wCard, hCard },
   data: () => ({
     sliceN: 10,
     page: 1

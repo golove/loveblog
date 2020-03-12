@@ -2,10 +2,17 @@
   <v-card flat color="rgba(0,0,0,0)">
     <v-card-title>
       <v-avatar size="42">
-        <v-img class="elevation-6" :src="$store.state.user.avatar?$store.state.user.avatar:''"></v-img>
+        <v-img
+          class="elevation-6"
+          :src="$store.state.user.avatar?$store.state.user.avatar:'http://yanxuan.nosdn.127.net/8afbf57d821c3049fc156afc07a0d91c.jpg'"
+        ></v-img>
       </v-avatar>
 
-      <span class="title pl-2 headline">{{$store.state.user.name?$store.state.user.name:''}}</span>
+      <v-btn
+        text
+        class="title pl-2 headline"
+        :to="$store.state.user.name?'':'/login'"
+      >{{$store.state.user.name?$store.state.user.name:'请先登录再来评论吧!'}}</v-btn>
     </v-card-title>
 
     <v-text-field
@@ -20,7 +27,7 @@
       label="评论一下吧!"
     />
     <v-card-actions>
-      <v-btn small color="transparent" @click="$emit('backmsg')">取消</v-btn>
+      <v-btn small color="transparent" @click="$emit('backmsg')">返回</v-btn>
       <v-btn
         :disabled="btnDisabled && $store.state.user.name ? false:true"
         small
@@ -29,17 +36,15 @@
       >评论</v-btn>
     </v-card-actions>
 
-    <v-list color="transparent">
-      <transition-group appear>
-        <v-list-item
-          class="list-complete-item"
-          v-for="(e,i) in item.reply.slice((page-1)*9,9*page)"
-          :key="i"
-        >
-          <live-msg :item="e" />
-        </v-list-item>
-      </transition-group>
-    </v-list>
+    <transition-group name="list-complete" tag="ul">
+      <live-msg
+        class="list-complete-item"
+        v-for="(e,i) in item.reply.slice((page-1)*5,5*page)"
+        :key="e.time"
+        :n="i+(5*(page-1))"
+        :item="e"
+      />
+    </transition-group>
   </v-card>
 </template>
 
@@ -115,8 +120,16 @@ export default {
 </script>
 <style scoped>
 .list-complete-item {
-  transition: all 1s;
+  transition: all 2s;
   display: inline-block;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(10px);
+}
+.list-complete-leave-active {
+  position: absolute;
 }
 </style>
 

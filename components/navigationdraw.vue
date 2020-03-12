@@ -2,8 +2,9 @@
   <v-navigation-drawer
     v-model="drawer"
     temporary
-    absolute
+    fixed
     clipped
+    hide-overlay
     color="rgba(160,120,225,.9)"
     :mini-variant="miniVariant"
     :disable-resize-watcher="sfalg"
@@ -32,12 +33,7 @@
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
 
-        <v-badge
-          inline
-          :content="item.content"
-          :value="item.badge"
-          :color="item.color"
-        >
+        <v-badge inline :content="item.content" :value="item.badge" :color="item.color">
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>

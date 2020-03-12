@@ -1,29 +1,27 @@
 <template>
-  <v-row class="alsdjflajs" justify="center">
-    <v-col cols="7">
-      <v-card flat color="transparent">
-        <v-card-actions>
-          <!-- <button v-on:click="shuffle">Shuffle</button> -->
-          <v-spacer></v-spacer>
-          <v-btn @click="flag=!flag">
-            <v-icon>mdi-pencil</v-icon>写点什么吧!
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+  <v-row justify="center">
+    <v-col cols="12">
+      <v-btn v-on:click="shuffle">
+        <v-icon>mdi-dice-5-outline</v-icon>随机排列
+      </v-btn>
+      <v-btn @click="flag=!flag">
+        <v-icon>{{flag?'mdi-arrow-left':'mdi-pencil'}}</v-icon>
+        {{flag?'返回':'写点什么吧!'}}
+      </v-btn>
     </v-col>
-    <v-col class="pa-0" xl="6" lg="7" md="9" sm="9">
-      <v-col v-show="flag" cols="12">
-        <inputbox class="inputbox" @setdata="setdata" />
-      </v-col>
 
-      <v-col
+    <transition-group class="justifycenter" name="list-complete">
+      <inputbox :key="true" v-show="flag" class="list-complete-item mb-2" @setdata="setdata" />
+
+      <twittercard
         v-for="(item,index) in $store.state.content.letters.slice((page-1)*sliceN,page*sliceN)"
-        :key="index"
-        cols="12"
-      >
-        <twittercard :n="index" :item="item" />
-      </v-col>
-    </v-col>
+        :key="item._id"
+        class="list-complete-item ma-1 align-self-auto"
+        :n="index + sliceN * (page - 1)"
+        :item="item"
+      />
+    </transition-group>
+
     <v-col
       cols="12"
       class="text-center"
@@ -40,7 +38,7 @@
     </v-col>
   </v-row>
 </template>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+
 <script>
 import inputbox from '~/components/inputbox'
 import twittercard from '~/components/twittercard'
@@ -50,18 +48,72 @@ export default {
   data: () => ({
     flag: false,
     page: 1,
-    sliceN: 6
+    sliceN: 12
   }),
   methods: {
     setdata(data) {
       console.log(data)
       this.blogs.unshift(data)
+    },
+
+    add: function() {
+      this.computedItems.lenght.splice(this.randomIndex(), 0, this.nextNum++)
+    },
+    remove(n) {
+      this.$store.commit('remove', n + 12 * (page - 1))
+    },
+
+    shuffle: function() {
+      this.$store.commit('shuffle')
+    },
+
+    beforeEnter: function(el) {
+      el.style.opacity = 0
+      el.style.transformOrigin = 'left'
+    },
+    enter: function(el, done) {
+      Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+      Velocity(el, { fontSize: '1em' }, { complete: done })
+    },
+    leave: function(el, done) {
+      Velocity(el, { translateX: '15px', rotateZ: '50deg' }, { duration: 600 })
+      Velocity(el, { rotateZ: '100deg' }, { loop: 2 })
+      Velocity(
+        el,
+        {
+          rotateZ: '45deg',
+          translateY: '30px',
+          translateX: '30px',
+          opacity: 0
+        },
+        { complete: done }
+      )
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.justifycenter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+/* list-complete-item */
+.list-complete-item {
+  max-width: 625px;
+  transition: all 3s;
+  display: inline-block;
+}
+.list-complete-enter, .list-complete-leave-to
+/* .list-complete-leave-active for below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateX(10px);
+}
+.list-complete-leave-active {
+  position: absolute;
+}
+
 .groupstyle {
   position: relative;
 }
@@ -80,7 +132,7 @@ export default {
   position: absolute;
 } */
 
-.v-enter,
+/* .v-enter,
 .v-leave-to {
   opacity: 0;
   transform: translateX(90px);
@@ -88,17 +140,17 @@ export default {
 .v-enter-active,
 .v-leave-active {
   transition: all 0.5s ease;
-}
+} */
 
 /* .v-enter,
 .v-leave-active {
   position: absolute;
 } */
 
-.animatess {
+/* .animatess {
   display: inline-block;
   transition: all 1s;
-}
+} */
 .alsdjflajs {
   min-height: 90vh;
 }

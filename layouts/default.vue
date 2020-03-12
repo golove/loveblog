@@ -13,8 +13,8 @@
       </v-list>
     </v-navigation-drawer>-->
     <v-app-bar dense :clipped-left="clipped" fixed app>
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-       <v-btn icon @click.stop="miniVariant = !miniVariant">
+      <!--<v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-btn icon @click.stop="miniVariant = !miniVariant">
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn icon @click.stop="clipped = !clipped">
@@ -75,9 +75,8 @@
       <v-spacer />
     </v-app-bar>
     <v-content class="rowstyle">
-      <v-container>
-        <nuxt />
-      </v-container>
+      <nuxt />
+
       <blogfoot :item="{author:'Laughter',time:'2020',version:'V4.0'}" />
     </v-content>
     <!-- <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
@@ -113,8 +112,8 @@ export default {
         },
         {
           icon: 'mdi-chart-bubble',
-          title: 'manage',
-          to: '/manage'
+          title: 'test',
+          to: '/test'
         }
       ],
       miniVariant: false,

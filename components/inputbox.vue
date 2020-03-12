@@ -2,10 +2,17 @@
   <v-card shaped class="card6 mx-auto" :color="item.color" :dark="!item.tcolor">
     <v-toolbar flat :color="item.color">
       <v-avatar size="42" color="grey darken-3">
-        <v-img class="elevation-6" :src="$store.state.user.avatar"></v-img>
+        <v-img
+          class="elevation-6"
+          :src="$store.state.user.avatar?$store.state.user.avatar:'http://yanxuan.nosdn.127.net/8afbf57d821c3049fc156afc07a0d91c.jpg'"
+        ></v-img>
       </v-avatar>
 
-      <v-toolbar-title class="pl-2 headline">{{$store.state.user.name}}</v-toolbar-title>
+      <v-btn
+        text
+        class="pl-2 headline"
+        :to="$store.state.user.name?'':'/login'"
+      >{{$store.state.user.name?$store.state.user.name:'请先登录'}}</v-btn>
 
       <v-spacer></v-spacer>
 
@@ -31,12 +38,12 @@
 
     <v-card-actions class="justify-space-around" style="opacity:0.7">
       <v-btn icon @click="colorpicker=!colorpicker">
-        <v-icon class="mr-1">mdi-chart-bubble</v-icon>背景颜色
+        <v-icon class="mr-1">mdi-palette</v-icon>背景颜色
       </v-btn>
-      <v-switch v-model="item.tcolor" :label="`字体颜色: ${item.tcolor?'黑':'白'}`"></v-switch>
-      <v-btn text>
+      <v-switch v-model="item.tcolor" label="字体颜色"></v-switch>
+      <!-- <v-btn text>
         <v-file-input dense show-size label="File input"></v-file-input>
-      </v-btn>
+      </v-btn>-->
       <v-btn :disabled="btnDisabled && $store.state.user.name ? false:true" @click="post" icon>
         <v-icon class="mr-1">mdi-send</v-icon>发送
       </v-btn>
@@ -63,6 +70,7 @@ export default {
       author: '',
       avatar: '',
       like: [],
+      unlike: [],
       reply: [],
       flag: 0,
       tcolor: false,
@@ -107,6 +115,7 @@ export default {
 
 <style>
 .card6 {
+  width: 100%;
   opacity: 0.8;
 }
 </style>

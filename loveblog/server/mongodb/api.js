@@ -194,19 +194,19 @@ router //bolgcontent
 
   .post('/signup', async (ctx) => {
 
-    let userName = ctx.request.body.username
-    let Email = ctx.request.body.email
+    let name = ctx.request.body.name
+    let email = ctx.request.body.email
     let user = await DB.find('users', {
-      username: userName
+      name
     })
     let uemail = await DB.find('users', {
-      email: Email
+      email
     })
     // console.log(user)
     if (user.length === 0 && uemail.length === 0) {
       // 创建新用户
       let res = await DB.insert('users', ctx.request.body);
-      console.log(res)
+
       try {
         if (res.result.ok) {
           ctx.body = {
@@ -244,7 +244,7 @@ router //bolgcontent
   // 登录
   .post('/signin', async (ctx) => {
     let res = await DB.find('users', ctx.request.body);
-    console.log(ctx.request.body)
+    // console.log(ctx.request.body)
     try {
 
       ctx.body = {

@@ -1,5 +1,5 @@
 <template>
-  <span>
+  <v-list three-line color="transparent">
     <v-divider inset></v-divider>
     <v-list-item>
       <v-list-item-avatar>
@@ -16,14 +16,24 @@
           <b>{{item.reply}}</b>
         </v-list-item-subtitle>
       </v-list-item-content>
+      <!-- <v-list-item-active>
+        <v-btn @click="remove(i)" icon>
+          <v-icon>mdi-trash-can</v-icon>
+        </v-btn>
+      </v-list-item-active>-->
     </v-list-item>
-  </span>
+  </v-list>
 </template>
 
 <script>
 export default {
   name: 'liveMsg',
-  props: { item: Object }
+  props: { item: Object, n: Number },
+  methods: {
+    // remove(n) {
+    //   this.$store.commit('remove', n)
+    // }
+  }
 }
 </script>
 

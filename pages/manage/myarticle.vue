@@ -5,12 +5,15 @@
       :key="index"
       v-for="(item,index) in $store.state.content.letters.slice((page-1)*sliceN,sliceN*page)"
       v-show="item.author===$store.state.user.name"
-   xl="5" lg="9" md="9" sm="9"
+      xl="6"
+      lg="6"
+      md="12"
+      sm="10"
     >
       <v-row justify="center">
         <v-col cols="12">
           <!-- <h-card :item="item"></h-card> -->
-          <twittercard :item='item' :items="[]" />
+          <twittercard :item="item" :items="[]" />
         </v-col>
       </v-row>
     </v-col>
@@ -32,7 +35,7 @@ import wCard from '~/components/wCard.vue'
 import twittercard from '~/components/twittercard.vue'
 export default {
   name: 'myletters',
-  components: {twittercard, wCard, hCard },
+  components: { twittercard, wCard, hCard },
   data: () => ({
     page: 1,
     sliceN: 12

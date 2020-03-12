@@ -31,6 +31,9 @@ export const mutations = {
     remove(state, n) {
         state.content.letters.splice(n, 1)
     },
+    shuffle(state) {
+        state.content.letters = _.shuffle(state.content.letters)
+    },
 
     //user login 
     USERLOGIN(state, user) {
@@ -49,33 +52,17 @@ export const mutations = {
         state.content.letters.forEach(e => {
             if (e._id === json.data._id) {
                 if (e[json.type] instanceof Array) {
-                    let n = e[json.type].indexOf(state.user.name)
+                    let n = e[json.type].indexOf(state.user)
                     if (n > -1) {
                         e[json.type].splice(n, 1)
-                        if (json.type === "collect") {
-                            this.$axios.post('/api/delArray', { id: e._id, collect: state.user.name })
-                                .then(res => {
-                                    console.log(res)
-                                })
-                        } else if (json.type === "like") {
-                            this.$axios.post('/api/delArray', { id: e._id, like: state.user.name })
-                                .then(res => {
-                                    console.log(res)
-                                })
-                        }
+
+                        this.$axios.post('/api/delArray', { id: e._id, [json.type]: state.user })
+
                     } else {
-                        e[json.type].push(state.user.name)
-                        if (json.type === "collect") {
-                            this.$axios.post('/api/addArray', { id: e._id, collect: state.user.name })
-                                .then(res => {
-                                    console.log(res)
-                                })
-                        } else if (json.type === "like") {
-                            this.$axios.post('/api/addArray', { id: e._id, like: state.user.name })
-                                .then(res => {
-                                    console.log(res)
-                                })
-                        }
+                        e[json.type].push(state.user)
+
+                        this.$axios.post('/api/addArray', { id: e._id, [json.type]: state.user })
+
                     }
                 } else if (json.type === 'see') {
                     e[json.type]++

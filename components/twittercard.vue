@@ -1,7 +1,7 @@
 <template>
   <div
-    :min-height="maxheight"
     class="wrap"
+    :min-height="maxheight"
     v-touch="{
       left: () => swipe('Left'),
       right: () => swipe('Right'),
@@ -15,48 +15,67 @@
       class="card1 mx-auto"
       :color="item.color"
       :dark="!item.tcolor"
+      ref="cHeight"
       shaped
     >
       <v-toolbar flat :color="item.color">
         <v-avatar size="42" color="grey darken-3">
           <v-img class="elevation-6" :src="item.avatar"></v-img>
         </v-avatar>
-
         <v-toolbar-title class="pl-2 headline">{{item.author}}</v-toolbar-title>
-
         <v-spacer></v-spacer>
-
-        <v-btn @click="remove" icon>
-          <v-icon>mdi-dots-vertical</v-icon>
-        </v-btn>
+        <v-menu transition="slide-y-transition" :dark="!item.tcolor" offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn icon dark v-on="on">
+              <v-icon>mdi-dots-horizontal</v-icon>
+            </v-btn>
+          </template>
+          <v-list :color="item.color">
+            <v-list-item v-for="(item, index) in menulists" :key="index" @click="item.func">
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <!-- <v-btn @click="remove" icon>
+          
+        </v-btn>-->
       </v-toolbar>
 
       <v-card-text
         :class="tflag?'tstyle':'wstyle'"
-        class="textsyle ml-6 pl-12 pr-8 py-0 headline font-weight-bold"
+        class="textsyle pl-12 pr-8 py-0 headline font-weight-bold"
       >{{item.text}}</v-card-text>
-
-      <v-card-text class="ml-6 pl-12 pr-6 py-0" style="opacity:.6">
+      <v-card-text class="pl-12 pr-6 py-0" style="opacity:.6">
         <b style="opacity: 0.6;
   font-size: 1em;">{{new Date(item.time).toLocaleString()}}</b>
       </v-card-text>
-
       <v-card-actions class="justify-space-around" style="opacity:0.7">
-        <v-btn icon>
-          <v-icon class="mr-1">mdi-heart</v-icon>赞
+        <v-btn @click="addlike" icon>
+          <v-badge offset-x :value="item.like.length?true:false" :content="item.like.length">
+            <v-icon class="mr-1">mdi-thumb-up</v-icon>赞
+          </v-badge>
         </v-btn>
+
+        <v-btn @click="addunlike" icon>
+          <v-badge :value="item.unlike.length?true:false" :content="item.unlike.length">
+            <v-icon class="mr-1">mdi-thumb-down</v-icon>踩
+          </v-badge>
+        </v-btn>
+
         <v-btn @click="showmsg" icon>
-          <v-icon class="mr-1">mdi-message</v-icon>评论
+          <v-badge :value="item.reply.length?true:false" :content="item.reply.length">
+            <v-icon class="mr-1">mdi-message</v-icon>评论
+          </v-badge>
         </v-btn>
-        <v-btn icon>
+
+        <!-- <v-btn icon>
           <v-icon class="mr-1">mdi-share-variant</v-icon>分享
-        </v-btn>
+        </v-btn>-->
         <button @click="showtext" icon>
-          <v-icon>{{tflag?'mdi-menu-up':'mdi-menu-down'}}</v-icon>
+          <v-icon>{{tflag?'mdi-chevron-double-up':'mdi-chevron-double-down'}}</v-icon>
           {{tflag?'收起':'更多'}}
         </button>
       </v-card-actions>
-
       <v-list color="transparent" three-line>
         <template v-for="(item, index) in item.reply.slice(0,1 )">
           <v-divider :key="index" :inset="true"></v-divider>
@@ -64,14 +83,10 @@
             <v-list-item-avatar>
               <v-img :src="item.avatar"></v-img>
             </v-list-item-avatar>
-
             <v-list-item-content>
               <v-list-item-title>
                 <b>{{item.name}}</b>
-                <b
-                  style="opacity: 0.6;
-  font-size: 0.8em;"
-                >{{new Date(item.time).toLocaleString()}}</b>
+                <b style="opacity: 0.6;font-size: 0.8em;">{{new Date(item.time).toLocaleString()}}</b>
               </v-list-item-title>
               <v-list-item-subtitle>
                 <b>{{item.reply}}</b>
@@ -115,14 +130,16 @@ export default {
   name: 'twittercard',
   props: { item: Object, n: Number },
   components: { simplereply, msgboard },
-  data: () => ({
-    tflag: false,
-    page: 1,
-    sliceN: 9,
-    flag: false,
-
-    maxheight: '200px'
-  }),
+  data() {
+    return {
+      tflag: false,
+      page: 1,
+      sliceN: 9,
+      flag: false,
+      maxheight: '250px',
+      menulists: [{ title: '删除', func: this.remove }]
+    }
+  },
 
   methods: {
     ...mapMutations(['articleEdit']),
@@ -133,16 +150,31 @@ export default {
     remove() {
       this.$store.commit('remove', this.n)
     },
+    addunlike() {
+      if (this.$store.state.user.name) {
+        this.articleEdit({ data: this.item, type: 'unlike' })
+      } else {
+        alert('要先登陆哟!!!')
+      }
+    },
+    addlike() {
+      if (this.$store.state.user.name) {
+        this.articleEdit({ data: this.item, type: 'like' })
+      } else {
+        alert('要先登陆哟!!!')
+      }
+    },
     showmsg() {
+      // console.log(this.$refs.cHeight)
       if (!this.tflag) {
-        this.flag = ~this.flag
+        this.flag = !this.flag
         setTimeout(() => {
           this.maxheight = '800px'
         }, 600)
       } else {
         this.tflag = false
         setTimeout(() => {
-          this.flag = ~this.flag
+          this.flag = !this.flag
           setTimeout(() => {
             this.maxheight = '800px'
           }, 600)
@@ -150,7 +182,7 @@ export default {
       }
     },
     backmsg() {
-      this.maxheight = '200px'
+      this.maxheight = '250px'
       setTimeout(() => {
         this.flag = !this.flag
       }, 620)
@@ -193,14 +225,14 @@ export default {
 .card1_1 {
   transform: rotateY(180deg);
 }
-.textsyle {
-  transition: all 0.3s;
-}
+
 .tstyle {
-  max-height: auto;
+  transition: all 0.3s;
+  height: auto;
 }
 .wstyle {
-  max-height: 130px;
+  transition: all 0.3s;
+  height: 130px;
   overflow: hidden;
 }
 .paginatsss {
